@@ -1,22 +1,16 @@
 import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
+import java.util.concurrent.TimeUnit;
 
-@TestInstance(value = PER_CLASS)
-public class FirefoxTest {
-    private final FirefoxDriver driver = new FirefoxDriver();
-    private final String url = "https://cryptopanic.com/";
-
+public class FirefoxTest extends AbstractTest{
     @BeforeClass
     public static void setup(){
-        System.setProperty("webdriver.chrome.driver", "/geckodriver.exe");
-    }
-
-    @Test
-    public void test(){
-        driver.get(url);
+        System.setProperty("webdriver.chrome.driver", ConfProperties.getProperty("geckodriver"));
+        driver = new FirefoxDriver();
+        authPage = new AuthPage(driver);
+        mainPage = new MainPage(driver);
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 }

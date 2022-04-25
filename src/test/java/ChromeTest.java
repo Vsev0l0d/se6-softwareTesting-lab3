@@ -1,22 +1,16 @@
 import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
+import java.util.concurrent.TimeUnit;
 
-@TestInstance(value = PER_CLASS)
-public class ChromeTest {
-    private final ChromeDriver driver = new ChromeDriver();
-    private final String url = "https://cryptopanic.com/";
-
+public class ChromeTest extends AbstractTest{
     @BeforeClass
-    public static void setup(){
-        System.setProperty("webdriver.chrome.driver", "/chromedriver.exe");
-    }
-
-    @Test
-    public void test(){
-        driver.get(url);
+    public static void setup() {
+        System.setProperty("webdriver.chrome.driver", ConfProperties.getProperty("chromedriver"));
+        driver = new ChromeDriver();
+        authPage = new AuthPage(driver);
+        mainPage = new MainPage(driver);
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 }
