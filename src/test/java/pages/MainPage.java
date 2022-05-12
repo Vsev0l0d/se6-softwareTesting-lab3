@@ -18,7 +18,7 @@ public class MainPage {
     private WebElement loginSuccessLabel;
 
     @FindBy(xpath = "/html/body/div[1]/div[2]/div[1]/div/div[1]/div[3]/div[1]/div[2]/div/a[2]")
-    private WebElement news;
+    private WebElement firstNews;
 
     @FindBy(xpath = "/html/body/div[1]/div[2]/div[1]/div/div[2]/div/div[2]/div[1]/a[1]")
     private WebElement likeBtn;
@@ -44,8 +44,14 @@ public class MainPage {
     @FindBy(xpath = "/html/body/div[1]/div[2]/div[1]/div/div[2]/div/div[2]/div[2]/a[4]")
     private WebElement toxicBtn;
 
-    @FindBy(xpath = "/html/body/div[1]/div[2]/div[2]/div/div[2]/div/div[3]/div[5]/div[1]/div[1]/div/div[1]/textarea")
+    @FindBy(xpath = ".//textarea[@placeholder='What are your thoughts?']")
     private WebElement commentField;
+
+    @FindBy(xpath = ".//button[@class='btn btn-outline-primary' and contains(text(), 'Comment')]")
+    private WebElement commentSendBtn;
+
+    @FindBy(xpath = "(.//div[@class='comment-content']/a[@class='user-name' and contains(text(),'kirillova200133')])[last()]/../span[@class='comment-body']/span")
+    private WebElement myLastComment;
 
     @FindBy(xpath = "/html/body/div[1]/div[2]/div[2]/div/div[2]/div/div[3]/ul/li[2]/a/span[1]")
     private WebElement subscribeCommentBtn;
@@ -63,8 +69,8 @@ public class MainPage {
         return loginSuccessLabel.getText();
     }
 
-    public void openNews() {
-        news.click();
+    public void openFirstNews() {
+        firstNews.click();
     }
 
     public void voteLike() {
@@ -105,6 +111,10 @@ public class MainPage {
         commentField.sendKeys(text);
     }
 
+    public void sendComment() {
+        commentSendBtn.click();
+    }
+
     public void subscribeComment() {
         subscribeCommentBtn.click();
     }
@@ -119,5 +129,11 @@ public class MainPage {
 
     public void followCoin() {
         followCoinBtn.click();
+    }
+
+    public String getMyLastComment() {
+        while (myLastComment.getText().isEmpty()){
+        }
+        return myLastComment.getText();
     }
 }

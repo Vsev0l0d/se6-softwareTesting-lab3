@@ -1,6 +1,8 @@
 import org.junit.AfterClass;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.AccountsSettingsPage;
 import pages.AuthPage;
 import pages.MainPage;
@@ -48,5 +50,15 @@ public abstract class AbstractTest {
                 () -> assertEquals(test, aboutTest),
                 () -> assertEquals(about, profilePage.getAbout())
         );
+    }
+
+    @Test
+    public void creatingNewsComments(){
+        driver.get(ConfProperties.getProperty("mainPage"));
+        String comment = "comment" + Math.random();
+        mainPage.openFirstNews();
+        mainPage.writeComment(comment);
+        mainPage.sendComment();
+        assertEquals(comment, mainPage.getMyLastComment());
     }
 }
