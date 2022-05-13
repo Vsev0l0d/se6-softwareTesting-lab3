@@ -1,14 +1,16 @@
 import org.junit.AfterClass;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.AccountsSettingsPage;
 import pages.AuthPage;
 import pages.MainPage;
 import pages.ProfilePage;
+import pages.oasis.OasisPage;
+import pages.oasis.OasisPageData;
+import utils.Pair;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public abstract class AbstractTest {
     protected static WebDriver driver;
@@ -16,12 +18,14 @@ public abstract class AbstractTest {
     protected static MainPage mainPage;
     protected static ProfilePage profilePage;
     protected static AccountsSettingsPage accountsSettingsPage;
+    protected static OasisPage oasisPage;
 
     protected static void setupPages(){
         authPage = new AuthPage(driver);
         mainPage = new MainPage(driver);
         profilePage = new ProfilePage(driver);
         accountsSettingsPage = new AccountsSettingsPage(driver);
+        oasisPage = new OasisPage(driver);
     }
 
     @AfterClass
@@ -60,5 +64,18 @@ public abstract class AbstractTest {
         mainPage.writeComment(comment);
         mainPage.sendComment();
         assertEquals(comment, mainPage.getMyLastComment());
+    }
+
+    @Test
+    public void createNewOasis() throws InterruptedException {
+        driver.get(ConfProperties.getProperty("oasisPage"));
+        Pair<String, String> testData = OasisPageData.getTestData();
+        oasisPage.clickSubmitLinkButton();
+        oasisPage.addTitle(testData.getLeft());
+        oasisPage.addLink(testData.getRight());
+        oasisPage.submit();
+        Thread.sleep(1000);
+        String resultTitle = oasisPage.getNewUnconfirmedTitle();
+        assertEquals(testData.getLeft(), resultTitle);
     }
 }
