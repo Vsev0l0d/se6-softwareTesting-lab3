@@ -1,8 +1,8 @@
-import org.junit.AfterClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.AccountsSettingsPage;
 import pages.AuthPage;
 import pages.MainPage;
@@ -24,7 +24,7 @@ public abstract class AbstractTest {
         accountsSettingsPage = new AccountsSettingsPage(driver);
     }
 
-    @AfterClass
+    @AfterAll
     public static void quit(){
         driver.quit();
     }
@@ -60,5 +60,13 @@ public abstract class AbstractTest {
         mainPage.writeComment(comment);
         mainPage.sendComment();
         assertEquals(comment, mainPage.getMyLastComment());
+    }
+
+    @ParameterizedTest(name = "{0}")
+    @ValueSource(strings = {"BTC", "ETH", "USDT"})
+    public void currencyFilter(String currency) throws InterruptedException {
+        mainPage.setCurrencyFilter(currency);
+        Thread.sleep(1000);
+        assertTrue(mainPage.isAllNewsRelatedToCurrency(currency));
     }
 }
