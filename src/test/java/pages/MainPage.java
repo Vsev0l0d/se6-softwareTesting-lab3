@@ -1,10 +1,13 @@
 package pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+
+import java.util.List;
 
 public class MainPage {
     public WebDriver driver;
@@ -16,6 +19,9 @@ public class MainPage {
 
     @FindBy(xpath = "//*[@id=\"messages\"]/div/div")
     private WebElement loginSuccessLabel;
+
+    @FindBy(xpath = "//div[@class='news']/div[contains(@class, 'news-row news-row-link')]")
+    private List<WebElement> news;
 
     @FindBy(xpath = "/html/body/div[1]/div[2]/div[1]/div/div[1]/div[3]/div[1]/div[2]/div/a[2]")
     private WebElement firstNews;
@@ -44,13 +50,13 @@ public class MainPage {
     @FindBy(xpath = "/html/body/div[1]/div[2]/div[1]/div/div[2]/div/div[2]/div[2]/a[4]")
     private WebElement toxicBtn;
 
-    @FindBy(xpath = ".//textarea[@placeholder='What are your thoughts?']")
+    @FindBy(xpath = "//textarea[@placeholder='What are your thoughts?']")
     private WebElement commentField;
 
-    @FindBy(xpath = ".//button[@class='btn btn-outline-primary' and contains(text(), 'Comment')]")
+    @FindBy(xpath = "//button[@class='btn btn-outline-primary' and contains(text(), 'Comment')]")
     private WebElement commentSendBtn;
 
-    @FindBy(xpath = "(.//div[@class='comment-content']/a[@class='user-name' and contains(text(),'kirillova200133')])[last()]/../span[@class='comment-body']/span")
+    @FindBy(xpath = "(//div[@class='comment-content']/a[@class='user-name' and contains(text(),'kirillova200133')])[last()]/../span[@class='comment-body']/span")
     private WebElement myLastComment;
 
     @FindBy(xpath = "/html/body/div[1]/div[2]/div[2]/div/div[2]/div/div[3]/ul/li[2]/a/span[1]")
@@ -135,5 +141,18 @@ public class MainPage {
         while (myLastComment.getText().isEmpty()){
         }
         return myLastComment.getText();
+    }
+
+    public void setCurrencyFilter(String currency) {
+        driver.findElement(By.xpath(
+                ".//div[contains(@class, 'currencies-scroll')]/a[contains(@class, 'currency')]/span[@class='name' and contains(text(), '"
+                        + currency.toUpperCase() + "')]"
+        )).click();
+    }
+
+    public Boolean isAllNewsRelatedToCurrency(String currency){
+        return news.stream().allMatch(x -> x.findElement(By.xpath(
+                "//a[text()='" + currency.toUpperCase() + "']")).isEnabled() ||
+                x.findElement(By.xpath("//div[@class='news-cell nc-currency']/span[text()='...']")).isEnabled());
     }
 }

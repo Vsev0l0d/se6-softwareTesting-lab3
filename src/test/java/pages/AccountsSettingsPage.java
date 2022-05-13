@@ -13,10 +13,10 @@ public class AccountsSettingsPage {
         this.driver = driver;
     }
 
-    @FindBy(xpath = "/html/body/div/div[2]/div[1]/div/div[2]/div/div[2]/form/fieldset[2]/div[1]/div/textarea")
+    @FindBy(xpath = "//textarea[@name='about']")
     private WebElement aboutField;
 
-    @FindBy(xpath = "/html/body/div/div[2]/div[1]/div/div[2]/div/div[2]/form/div/div[2]/div/input")
+    @FindBy(xpath = "//input[@type='submit' and @name='save']")
     private WebElement saveBtn;
 
     public void inputAbout(String about) {

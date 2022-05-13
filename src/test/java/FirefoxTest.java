@@ -1,4 +1,4 @@
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -6,7 +6,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.concurrent.TimeUnit;
 
 public class FirefoxTest extends AbstractTest{
-    @BeforeClass
+    @BeforeAll
     public static void setup(){
         System.setProperty("webdriver.chrome.driver", ConfProperties.getProperty("geckodriver"));
         driver = new FirefoxDriver();
