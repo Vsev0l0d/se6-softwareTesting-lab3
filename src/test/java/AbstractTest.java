@@ -9,6 +9,8 @@ import pages.MainPage;
 import pages.ProfilePage;
 import pages.oasis.OasisPage;
 import pages.oasis.OasisPageData;
+import pages.polls.PollsPage;
+import pages.polls.PollsPageData;
 import utils.Pair;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,6 +23,7 @@ public abstract class AbstractTest {
     protected static ProfilePage profilePage;
     protected static AccountsSettingsPage accountsSettingsPage;
     protected static OasisPage oasisPage;
+    protected static PollsPage pollsPage;
 
     protected static void setupPages(){
         authPage = new AuthPage(driver);
@@ -28,6 +31,7 @@ public abstract class AbstractTest {
         profilePage = new ProfilePage(driver);
         accountsSettingsPage = new AccountsSettingsPage(driver);
         oasisPage = new OasisPage(driver);
+        pollsPage = new PollsPage(driver);
     }
 
     @AfterAll
@@ -81,9 +85,9 @@ public abstract class AbstractTest {
         driver.get(getProperty("oasisPage"));
         Pair<String, String> testData = OasisPageData.getTestData();
         oasisPage.clickSubmitLinkButton();
-        oasisPage.addTitle(testData.getLeft());
-        oasisPage.addLink(testData.getRight());
-        oasisPage.submit();
+        oasisPage.fillTitleField(testData.getLeft());
+        oasisPage.fillLinkField(testData.getRight());
+        oasisPage.submitOasis();
         Thread.sleep(5000);
         assertEquals(testData.getLeft(), oasisPage.getNewUnconfirmedTitle());
     }
@@ -107,5 +111,17 @@ public abstract class AbstractTest {
         mainPage.clickOnReact(vote);
         Thread.sleep(1000);
         assertFalse(mainPage.isReacted(vote));
+    }
+
+    @Test
+    public void createNewPoll() throws InterruptedException {
+        driver.get(getProperty("pollsPage"));
+        String testData = PollsPageData.getTestData();
+        pollsPage.createNewPoll();
+        pollsPage.fillQuestion(testData);
+        pollsPage.fillAnswer1("Yes");
+        pollsPage.fillAnswer2("No");
+        Thread.sleep(5000);
+        assertEquals(testData, pollsPage.getNewPollQuestion());
     }
 }

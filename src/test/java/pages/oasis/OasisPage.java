@@ -22,9 +22,6 @@ public class OasisPage {
     @FindBy(xpath = "//input[contains(@name, 'url')]")
     private WebElement linkField;
 
-    @FindBy(xpath = "//textarea[contains(@name, 'body')]")
-    private WebElement descriptionField;
-
     @FindBy(xpath = "//button[contains(@type, 'submit')]")
     private WebElement submitButton;
 
@@ -35,22 +32,17 @@ public class OasisPage {
         submitLinkButton.click();
     }
 
-    public void addTitle(String title) {
+    public void fillTitleField(String title) {
         titleField.clear();
         titleField.sendKeys(title);
     }
 
-    public void addLink(String link) {
+    public void fillLinkField(String link) {
         linkField.clear();
         linkField.sendKeys(link);
     }
 
-    public void addDescription(String description) {
-        descriptionField.clear();
-        descriptionField.sendKeys(description);
-    }
-
-    public void submit() {
+    public void submitOasis() {
         submitButton.click();
     }
 
