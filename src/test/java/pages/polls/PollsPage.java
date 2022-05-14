@@ -31,6 +31,15 @@ public class PollsPage {
     @FindBy(xpath = "(//span[contains(text(), '[DRAFT]')])[1]")
     private WebElement newPollQuestion;
 
+    @FindBy(xpath = "//span[contains(text(), 'Yes')]")
+    private WebElement appVote;
+
+    @FindBy(xpath = "//button[contains(text(), 'Vote')]")
+    private WebElement voteButton;
+
+    @FindBy(xpath = "//span[contains(@class, 'votes-info')]")
+    private WebElement votesAmount;
+
     public void createNewPoll() {
         createPollButton.click();
     }
@@ -56,5 +65,21 @@ public class PollsPage {
 
     public String getNewPollQuestion() {
         return newPollQuestion.getText().split(" ", 2)[1];
+    }
+
+    public void clickFirstPoll() {
+        newPollQuestion.click();
+    }
+
+    public void vote1Answer() {
+        appVote.click();
+    }
+
+    public void vote() {
+        voteButton.click();
+    }
+
+    public Integer getVotesAmount() {
+        return Integer.parseInt(votesAmount.getText().split(" ", 2)[0]);
     }
 }

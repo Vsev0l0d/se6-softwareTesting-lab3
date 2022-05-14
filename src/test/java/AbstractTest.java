@@ -121,7 +121,19 @@ public abstract class AbstractTest {
         pollsPage.fillQuestion(testData);
         pollsPage.fillAnswer1("Yes");
         pollsPage.fillAnswer2("No");
+        pollsPage.submitPoll();
         Thread.sleep(5000);
         assertEquals(testData, pollsPage.getNewPollQuestion());
+    }
+
+    @Test
+    public void voteInPoll() throws InterruptedException {
+        driver.get(getProperty("pollsPage"));
+        pollsPage.clickFirstPoll();
+        Integer initialAmount = pollsPage.getVotesAmount();
+        pollsPage.vote1Answer();
+        pollsPage.vote();
+        Thread.sleep(4000);
+        assertEquals(initialAmount + 1, pollsPage.getVotesAmount());
     }
 }
