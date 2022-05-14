@@ -12,6 +12,7 @@ import pages.oasis.OasisPageData;
 import utils.Pair;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static utils.ConfProperties.getProperty;
 
 public abstract class AbstractTest {
     protected static WebDriver driver;
@@ -36,21 +37,21 @@ public abstract class AbstractTest {
 
     @Test
     public void changeTextAboutProfile(){
-        driver.get(ConfProperties.getProperty("profilePage"));
+        driver.get(getProperty("profilePage"));
         String about = profilePage.getAbout();
         String test = "test";
 
-        driver.get(ConfProperties.getProperty("accountsSettingsPage"));
+        driver.get(getProperty("accountsSettingsPage"));
         accountsSettingsPage.inputAbout(test);
         accountsSettingsPage.clickSaveBtn();
-        driver.get(ConfProperties.getProperty("profilePage"));
+        driver.get(getProperty("profilePage"));
         String aboutTest = profilePage.getAbout();
 
-        driver.get(ConfProperties.getProperty("accountsSettingsPage"));
+        driver.get(getProperty("accountsSettingsPage"));
         accountsSettingsPage.inputAbout(about);
         accountsSettingsPage.clickSaveBtn();
 
-        driver.get(ConfProperties.getProperty("profilePage"));
+        driver.get(getProperty("profilePage"));
         assertAll(
                 () -> assertEquals(test, aboutTest),
                 () -> assertEquals(about, profilePage.getAbout())
@@ -59,7 +60,7 @@ public abstract class AbstractTest {
 
     @Test
     public void creatingNewsComments(){
-        driver.get(ConfProperties.getProperty("mainPage"));
+        driver.get(getProperty("mainPage"));
         String comment = "comment" + Math.random();
         mainPage.openFirstNews();
         mainPage.writeComment(comment);
@@ -77,7 +78,7 @@ public abstract class AbstractTest {
 
     @Test
     public void createNewOasis() throws InterruptedException {
-        driver.get(ConfProperties.getProperty("oasisPage"));
+        driver.get(getProperty("oasisPage"));
         Pair<String, String> testData = OasisPageData.getTestData();
         oasisPage.clickSubmitLinkButton();
         oasisPage.addTitle(testData.getLeft());
@@ -90,7 +91,7 @@ public abstract class AbstractTest {
 
     @Test
     public void commentedFilter() throws InterruptedException {
-        driver.get(ConfProperties.getProperty("mainPage"));
+        driver.get(getProperty("mainPage"));
         mainPage.setCommentedFilter();
         Thread.sleep(1000);
         assertTrue(mainPage.isAllNewsHasBeenCommented());

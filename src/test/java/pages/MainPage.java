@@ -9,6 +9,8 @@ import org.openqa.selenium.support.PageFactory;
 
 import java.util.List;
 
+import static utils.ConfProperties.getProperty;
+
 public class MainPage {
     public WebDriver driver;
 
@@ -61,9 +63,6 @@ public class MainPage {
 
     @FindBy(xpath = "//button[@class='btn btn-outline-primary' and contains(text(), 'Comment')]")
     private WebElement commentSendBtn;
-
-    @FindBy(xpath = "(//div[@class='comment-content']/a[@class='user-name' and contains(text(),'kirillova200133')])[last()]/../span[@class='comment-body']/span")
-    private WebElement myLastComment;
 
     @FindBy(xpath = "/html/body/div[1]/div[2]/div[2]/div/div[2]/div/div[3]/ul/li[2]/a/span[1]")
     private WebElement subscribeCommentBtn;
@@ -144,8 +143,11 @@ public class MainPage {
     }
 
     public String getMyLastComment() {
-        while (myLastComment.getText().isEmpty()){
-        }
+        WebElement myLastComment = driver.findElement(By.xpath(
+                "(//div[@class='comment-content']/a[@class='user-name' and contains(text(),'" + getProperty("login")
+                        + "')])[last()]/../span[@class='comment-body']/span"
+        ));
+        while (myLastComment.getText().isEmpty()){}
         return myLastComment.getText();
     }
 
