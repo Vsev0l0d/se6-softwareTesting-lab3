@@ -26,6 +26,12 @@ public class MainPage {
     @FindBy(xpath = "/html/body/div[1]/div[2]/div[1]/div/div[1]/div[3]/div[1]/div[2]/div/a[2]")
     private WebElement firstNews;
 
+    @FindBy(xpath = "//div[@class='filter-content filter-menu']/a[text()='Commented']")
+    private WebElement commentedFilter;
+
+    @FindBy(xpath = "/html/body/div[1]/div[2]/div[1]/div/div[1]/div[1]/div[1]/div[2]")
+    private  WebElement dropdownFilter2;
+
     @FindBy(xpath = "/html/body/div[1]/div[2]/div[1]/div/div[2]/div/div[2]/div[1]/a[1]")
     private WebElement likeBtn;
 
@@ -150,9 +156,20 @@ public class MainPage {
         )).click();
     }
 
-    public Boolean isAllNewsRelatedToCurrency(String currency){
+    public boolean isAllNewsRelatedToCurrency(String currency){
         return news.stream().allMatch(x -> x.findElement(By.xpath(
                 "//a[text()='" + currency.toUpperCase() + "']")).isEnabled() ||
                 x.findElement(By.xpath("//div[@class='news-cell nc-currency']/span[text()='...']")).isEnabled());
+    }
+
+    public void setCommentedFilter(){
+        dropdownFilter2.click();
+        commentedFilter.click();
+    }
+
+    public boolean isAllNewsHasBeenCommented(){
+        return news.stream().allMatch(x -> x.findElement(By.xpath(
+                "//div[@class='news-votes news-cell nc-votes']/span[contains(@title, 'comments votes')]"
+        )).isEnabled());
     }
 }

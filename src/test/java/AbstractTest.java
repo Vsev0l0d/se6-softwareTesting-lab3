@@ -87,4 +87,12 @@ public abstract class AbstractTest {
         String resultTitle = oasisPage.getNewUnconfirmedTitle();
         assertEquals(testData.getLeft(), resultTitle);
     }
+
+    @Test
+    public void commentedFilter() throws InterruptedException {
+        driver.get(ConfProperties.getProperty("mainPage"));
+        mainPage.setCommentedFilter();
+        Thread.sleep(1000);
+        assertTrue(mainPage.isAllNewsHasBeenCommented());
+    }
 }
