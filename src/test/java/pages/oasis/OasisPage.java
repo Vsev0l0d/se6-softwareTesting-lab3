@@ -13,22 +13,22 @@ public class OasisPage {
         this.driver = driver;
     }
 
-    @FindBy(xpath = "/html/body/div[1]/div[2]/div[1]/div/div[2]/div/div/div[1]/a")
+    @FindBy(xpath = "//a[contains(@class,'btn')]")
     private WebElement submitLinkButton;
 
-    @FindBy(xpath = "/html/body/div[1]/div[2]/div[1]/div/div[2]/div/div[2]/div[1]/div/textarea")
+    @FindBy(xpath = "//textarea[contains(@name, 'title')]")
     private WebElement titleField;
 
-    @FindBy(xpath = "/html/body/div[1]/div[2]/div[1]/div/div[2]/div/div[2]/div[2]/div/input")
+    @FindBy(xpath = "//input[contains(@name, 'url')]")
     private WebElement linkField;
 
-    @FindBy(xpath = "/html/body/div[1]/div[2]/div[1]/div/div[2]/div/div[2]/div[3]/div/textarea")
+    @FindBy(xpath = "//textarea[contains(@name, 'body')]")
     private WebElement descriptionField;
 
-    @FindBy(xpath = "/html/body/div[1]/div[2]/div[1]/div/div[2]/div/div[2]/div[6]/div[2]/div/button")
+    @FindBy(xpath = "//button[contains(@type, 'submit')]")
     private WebElement submitButton;
 
-    @FindBy(xpath = "//span[contains(text(), '[UNCONFIRMED]')]")
+    @FindBy(xpath = "(//span[contains(text(), '[UNCONFIRMED]')])[1]")
     private WebElement newOasis;
 
     public void clickSubmitLinkButton() {

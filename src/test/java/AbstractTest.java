@@ -83,8 +83,7 @@ public abstract class AbstractTest {
         oasisPage.addTitle(testData.getLeft());
         oasisPage.addLink(testData.getRight());
         oasisPage.submit();
-        Thread.sleep(1000);
-        String resultTitle = oasisPage.getNewUnconfirmedTitle();
-        assertEquals(testData.getLeft(), resultTitle);
+        Thread.sleep(5000);
+        assertEquals(testData.getLeft(), oasisPage.getNewUnconfirmedTitle());
     }
 }
