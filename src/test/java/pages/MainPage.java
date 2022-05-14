@@ -19,9 +19,6 @@ public class MainPage {
         this.driver = driver;
     }
 
-    @FindBy(xpath = "//*[@id=\"messages\"]/div/div")
-    private WebElement loginSuccessLabel;
-
     @FindBy(xpath = "//div[@class='news']/div[contains(@class, 'news-row news-row-link')]")
     private List<WebElement> news;
 
@@ -34,86 +31,14 @@ public class MainPage {
     @FindBy(xpath = "/html/body/div[1]/div[2]/div[1]/div/div[1]/div[1]/div[1]/div[2]")
     private  WebElement dropdownFilter2;
 
-    @FindBy(xpath = "/html/body/div[1]/div[2]/div[1]/div/div[2]/div/div[2]/div[1]/a[1]")
-    private WebElement likeBtn;
-
-    @FindBy(xpath = "/html/body/div[1]/div[2]/div[1]/div/div[2]/div/div[2]/div[1]/a[2]")
-    private WebElement dislikeBtn;
-
-    @FindBy(xpath = "/html/body/div[1]/div[2]/div[1]/div/div[2]/div/div[2]/div[1]/a[3]")
-    private WebElement lolBtn;
-
-    @FindBy(xpath = "/html/body/div[1]/div[2]/div[1]/div/div[2]/div/div[2]/div[1]/a[4]")
-    private WebElement saveBtn;
-
-    @FindBy(xpath = "/html/body/div[1]/div[2]/div[1]/div/div[2]/div/div[2]/div[2]/a[1]")
-    private WebElement bullishBtn;
-
-    @FindBy(xpath = "/html/body/div[1]/div[2]/div[1]/div/div[2]/div/div[2]/div[2]/a[2]")
-    private WebElement bearishBtn;
-
-    @FindBy(xpath = "/html/body/div[1]/div[2]/div[1]/div/div[2]/div/div[2]/div[2]/a[3]")
-    private WebElement importantBtn;
-
-    @FindBy(xpath = "/html/body/div[1]/div[2]/div[1]/div/div[2]/div/div[2]/div[2]/a[4]")
-    private WebElement toxicBtn;
-
     @FindBy(xpath = "//textarea[@placeholder='What are your thoughts?']")
     private WebElement commentField;
 
     @FindBy(xpath = "//button[@class='btn btn-outline-primary' and contains(text(), 'Comment')]")
     private WebElement commentSendBtn;
 
-    @FindBy(xpath = "/html/body/div[1]/div[2]/div[2]/div/div[2]/div/div[3]/ul/li[2]/a/span[1]")
-    private WebElement subscribeCommentBtn;
-
-    @FindBy(xpath = "/html/body/div[1]/div[2]/div[2]/div/div[1]/div[1]/div[2]/span/span[2]")
-    private WebElement filterValue;
-
-    @FindBy(xpath = "/html/body/div[1]/div[3]/div/div[3]/a[3]")
-    private WebElement currentCoinPrice;
-
-    @FindBy(xpath = "/html/body/div[1]/div[2]/div[2]/div/div[2]/div/div[1]/div[1]/div/a")
-    private WebElement followCoinBtn;
-
-    public String getUserLogin() {
-        return loginSuccessLabel.getText();
-    }
-
     public void openFirstNews() {
         firstNews.click();
-    }
-
-    public void voteLike() {
-        likeBtn.click();
-    }
-
-    public void voteDislike() {
-        dislikeBtn.click();
-    }
-
-    public void voteLol() {
-        lolBtn.click();
-    }
-
-    public void voteSave() {
-        saveBtn.click();
-    }
-
-    public void voteBullish() {
-        bullishBtn.click();
-    }
-
-    public void voteBearish() {
-        bearishBtn.click();
-    }
-
-    public void voteImportant() {
-        importantBtn.click();
-    }
-
-    public void voteToxic() {
-        toxicBtn.click();
     }
 
     public void writeComment(String text) {
@@ -124,22 +49,6 @@ public class MainPage {
 
     public void sendComment() {
         commentSendBtn.click();
-    }
-
-    public void subscribeComment() {
-        subscribeCommentBtn.click();
-    }
-
-    public String getFilterValue() {
-        return filterValue.getText();
-    }
-
-    public void clickCoin() {
-        currentCoinPrice.click();
-    }
-
-    public void followCoin() {
-        followCoinBtn.click();
     }
 
     public String getMyLastComment() {
@@ -173,5 +82,18 @@ public class MainPage {
         return news.stream().allMatch(x -> x.findElement(By.xpath(
                 "//div[@class='news-votes news-cell nc-votes']/span[contains(@title, 'comments votes')]"
         )).isEnabled());
+    }
+
+    public void clickOnReact(String vote){
+        driver.findElement(By.xpath(
+                "//div[@class='votes-grid']/div/a[contains(@class, 'vote-" + vote + "')]"
+        )).click();
+    }
+
+
+    public boolean isReacted(String vote){
+        return driver.findElements(By.xpath(
+                "//div[@class='votes-grid']/div/a[contains(@class, 'vote-" + vote + " active')]"
+        )).size() > 0;
     }
 }

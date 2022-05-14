@@ -96,4 +96,17 @@ public abstract class AbstractTest {
         Thread.sleep(1000);
         assertTrue(mainPage.isAllNewsHasBeenCommented());
     }
+
+    @ParameterizedTest(name = "{0}")
+    @ValueSource(strings = {"like", "dislike", "lol", "save", "positive", "negative", "important"})
+    public void reactions(String vote) throws InterruptedException {
+        driver.get(getProperty("mainPage"));
+        mainPage.openFirstNews();
+        mainPage.clickOnReact(vote);
+        Thread.sleep(1000);
+        assertTrue(mainPage.isReacted(vote));
+        mainPage.clickOnReact(vote);
+        Thread.sleep(1000);
+        assertFalse(mainPage.isReacted(vote));
+    }
 }
