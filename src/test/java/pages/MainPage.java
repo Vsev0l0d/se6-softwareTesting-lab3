@@ -131,4 +131,10 @@ public class MainPage {
     public void saveAdding() {
         driver.findElement(By.xpath("//span[contains(text(), 'Save')]/parent::a")).click();
     }
+
+    public void switchTheme(){
+        driver.findElement(By.xpath(
+                "//div[@class='theme-switch']/a[@class='toggle-light-link']"
+        )).click();
+    }
 }
