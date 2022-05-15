@@ -3,13 +3,18 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import pages.*;
 import pages.oasis.OasisPage;
 import pages.oasis.OasisPageData;
 import pages.polls.PollsPage;
 import pages.polls.PollsPageData;
+import utils.AverageColorChecker;
 import utils.Pair;
+
+import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static utils.ConfProperties.getProperty;
@@ -156,5 +161,16 @@ public abstract class AbstractTest {
         mainPage.setMyVotesFilter();
         Thread.sleep(1000);
         assertTrue(mainPage.isAllNewsHasBeenVotedByMe());
+    }
+
+    @Test
+    public void themeChange(){
+        driver.get(getProperty("mainPage"));
+        mainPage.switchTheme();
+        File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+        assertFalse(AverageColorChecker.isAverageColorDark(scrFile));
+        mainPage.switchTheme();
+        scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+        assertTrue(AverageColorChecker.isAverageColorDark(scrFile));
     }
 }

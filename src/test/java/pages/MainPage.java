@@ -113,4 +113,10 @@ public class MainPage {
                                 + vote + " votes')]/span[contains(@class, 'active')]"
                 )).size() > 0;
     }
+
+    public void switchTheme(){
+        driver.findElement(By.xpath(
+                "//div[@class='theme-switch']/a[@class='toggle-light-link']"
+        )).click();
+    }
 }
