@@ -107,6 +107,10 @@ public class MainPage {
     public boolean isReacted(String vote){
         return driver.findElements(By.xpath(
                 "//div[@class='votes-grid']/div/a[contains(@class, 'vote-" + vote + " active')]"
-        )).size() > 0;
+        )).size() > 0 &&
+                driver.findElements(By.xpath(
+                        "//div[@class='news-row news-row-link active']//div[@class='news-votes news-cell nc-votes']/span[contains(@title, '"
+                                + vote + " votes')]/span[contains(@class, 'active')]"
+                )).size() > 0;
     }
 }
