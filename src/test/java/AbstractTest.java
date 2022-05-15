@@ -1,4 +1,5 @@
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -39,6 +40,7 @@ public abstract class AbstractTest {
     }
 
     @Test
+    @Disabled("interfering captcha appeared")
     public void changeTextAboutProfile(){
         driver.get(getProperty("profilePage"));
         String about = profilePage.getAbout();
@@ -146,5 +148,13 @@ public abstract class AbstractTest {
         accountsCommentsPage.confirmDelete();
         Thread.sleep(500);
         assertEquals("[Deleted]", accountsCommentsPage.getCommentStatus());
+    }
+
+    @Test
+    public void mуVotesFilter() throws InterruptedException {
+        driver.get(getProperty("mainPage"));
+        mainPage.setMyVotesFilter();
+        Thread.sleep(1000);
+        assertTrue(mainPage.isAllNewsHasBeenVotedByMe());
     }
 }

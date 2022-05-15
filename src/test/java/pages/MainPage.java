@@ -28,6 +28,9 @@ public class MainPage {
     @FindBy(xpath = "//div[@class='filter-content filter-menu']/a[text()='Commented']")
     private WebElement commentedFilter;
 
+    @FindBy(xpath = "//div[@class='filter-content filter-menu']/a[contains(text(),'My votes')]")
+    private WebElement myVotesFilter;
+
     @FindBy(xpath = "/html/body/div[1]/div[2]/div[1]/div/div[1]/div[1]/div[1]/div[2]")
     private  WebElement dropdownFilter2;
 
@@ -68,9 +71,9 @@ public class MainPage {
     }
 
     public boolean isAllNewsRelatedToCurrency(String currency){
-        return news.stream().allMatch(x -> x.findElement(By.xpath(
-                "//a[text()='" + currency.toUpperCase() + "']")).isEnabled() ||
-                x.findElement(By.xpath("//div[@class='news-cell nc-currency']/span[text()='...']")).isEnabled());
+        return news.stream().allMatch(x -> x.findElements(By.xpath(
+                "//a[text()='" + currency.toUpperCase() + "']")).size() > 0 ||
+                x.findElements(By.xpath("//div[@class='news-cell nc-currency']/span[text()='...']")).size() > 0);
     }
 
     public void setCommentedFilter(){
@@ -78,10 +81,21 @@ public class MainPage {
         commentedFilter.click();
     }
 
+    public void setMyVotesFilter(){
+        dropdownFilter2.click();
+        myVotesFilter.click();
+    }
+
     public boolean isAllNewsHasBeenCommented(){
-        return news.stream().allMatch(x -> x.findElement(By.xpath(
+        return news.stream().allMatch(x -> x.findElements(By.xpath(
                 "//div[@class='news-votes news-cell nc-votes']/span[contains(@title, 'comments votes')]"
-        )).isEnabled());
+        )).size() > 0);
+    }
+
+    public boolean isAllNewsHasBeenVotedByMe(){
+        return news.stream().allMatch(x -> x.findElements(By.xpath(
+                "//div[@class='news-votes news-cell nc-votes']/span[not(contains(@title, 'comments votes'))]/span[contains(@class, 'active')]"
+        )).size() > 0);
     }
 
     public void clickOnReact(String vote){
@@ -90,10 +104,13 @@ public class MainPage {
         )).click();
     }
 
-
     public boolean isReacted(String vote){
         return driver.findElements(By.xpath(
                 "//div[@class='votes-grid']/div/a[contains(@class, 'vote-" + vote + " active')]"
-        )).size() > 0;
+        )).size() > 0 &&
+                driver.findElements(By.xpath(
+                        "//div[@class='news-row news-row-link active']//div[@class='news-votes news-cell nc-votes']/span[contains(@title, '"
+                                + vote + " votes')]/span[contains(@class, 'active')]"
+                )).size() > 0;
     }
 }
