@@ -23,6 +23,7 @@ public abstract class AbstractTest {
     protected static OasisPage oasisPage;
     protected static PollsPage pollsPage;
     protected static AccountsCommentsPage accountsCommentsPage;
+    protected static PortfolioPage portfolioPage;
 
     protected static void setupPages(){
         authPage = new AuthPage(driver);
@@ -32,6 +33,7 @@ public abstract class AbstractTest {
         oasisPage = new OasisPage(driver);
         pollsPage = new PollsPage(driver);
         accountsCommentsPage = new AccountsCommentsPage(driver);
+        portfolioPage = new PortfolioPage(driver);
     }
 
     @AfterAll
@@ -156,5 +158,22 @@ public abstract class AbstractTest {
         mainPage.setMyVotesFilter();
         Thread.sleep(1000);
         assertTrue(mainPage.isAllNewsHasBeenVotedByMe());
+    }
+
+    @Test
+    public void addToPortfolio() {
+        driver.get(getProperty("portfolioPage"));
+        Integer initialAmount = portfolioPage.getTotalAmountBTC();
+        driver.get(getProperty("mainPage"));
+        String label = "test" + Math.random();
+        Integer value = 1;
+        mainPage.openBTCPage();
+        mainPage.openBTCPortfolio();
+        mainPage.clickToAddNewRow();
+        mainPage.fillLabelField(label);
+        mainPage.fillAmount(String.valueOf(value));
+        mainPage.saveAdding();
+        driver.get(getProperty("portfolioPage"));
+        assertEquals(initialAmount + value, portfolioPage.getTotalAmountBTC());
     }
 }

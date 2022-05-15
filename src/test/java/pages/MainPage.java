@@ -104,13 +104,31 @@ public class MainPage {
         )).click();
     }
 
-    public boolean isReacted(String vote){
-        return driver.findElements(By.xpath(
-                "//div[@class='votes-grid']/div/a[contains(@class, 'vote-" + vote + " active')]"
-        )).size() > 0 &&
-                driver.findElements(By.xpath(
-                        "//div[@class='news-row news-row-link active']//div[@class='news-votes news-cell nc-votes']/span[contains(@title, '"
-                                + vote + " votes')]/span[contains(@class, 'active')]"
-                )).size() > 0;
+    public boolean isReacted(String vote) {
+        return driver.findElements(By.xpath("//div[@class='votes-grid']/div/a[contains(@class, 'vote-" + vote + " active')]")).size() > 0 && driver.findElements(By.xpath("//div[@class='news-row news-row-link active']//div[@class='news-votes news-cell nc-votes']/span[contains(@title, '" + vote + " votes')]/span[contains(@class, 'active')]")).size() > 0;
+    }
+
+    public void openBTCPage() {
+        driver.findElement(By.xpath("//div[contains(@class, 'currencies-scroll')]/a[contains(@class, 'currency')]/span[@class='name' and text()='BTC']")).click();
+    }
+
+    public void openBTCPortfolio() {
+        driver.findElement(By.xpath("//a[@class='pane-tab' and contains(text(), 'Portfolio')]")).click();
+    }
+
+    public void clickToAddNewRow() {
+        driver.findElement(By.xpath("//a[text()='Add new row']")).click();
+    }
+
+    public void fillLabelField(String label) {
+        driver.findElement(By.xpath("(//input[contains(@placeholder, 'eg. exchange or wallet name')])[last()]")).sendKeys(label);
+    }
+
+    public void fillAmount(String amount) {
+        driver.findElement(By.xpath("(//input[contains(@name, 'amount_')])[last()]")).sendKeys(amount);
+    }
+
+    public void saveAdding() {
+        driver.findElement(By.xpath("//span[contains(text(), 'Save')]/parent::a")).click();
     }
 }
