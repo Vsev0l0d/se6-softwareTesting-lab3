@@ -3,10 +3,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.openqa.selenium.WebDriver;
-import pages.AccountsSettingsPage;
-import pages.AuthPage;
-import pages.MainPage;
-import pages.ProfilePage;
+import pages.*;
 import pages.oasis.OasisPage;
 import pages.oasis.OasisPageData;
 import pages.polls.PollsPage;
@@ -24,6 +21,7 @@ public abstract class AbstractTest {
     protected static AccountsSettingsPage accountsSettingsPage;
     protected static OasisPage oasisPage;
     protected static PollsPage pollsPage;
+    protected static AccountsCommentsPage accountsCommentsPage;
 
     protected static void setupPages(){
         authPage = new AuthPage(driver);
@@ -32,6 +30,7 @@ public abstract class AbstractTest {
         accountsSettingsPage = new AccountsSettingsPage(driver);
         oasisPage = new OasisPage(driver);
         pollsPage = new PollsPage(driver);
+        accountsCommentsPage = new AccountsCommentsPage(driver);
     }
 
     @AfterAll
@@ -135,5 +134,17 @@ public abstract class AbstractTest {
         pollsPage.vote();
         Thread.sleep(4000);
         assertEquals(initialAmount + 1, pollsPage.getVotesAmount());
+    }
+
+    @Test
+    public void deleteComment() throws InterruptedException {
+        driver.get(getProperty("accountsCommentsPage"));
+        accountsCommentsPage.scroll();
+        accountsCommentsPage.clickLastComment();
+        accountsCommentsPage.openTools();
+        accountsCommentsPage.clickDeleteComment();
+        accountsCommentsPage.confirmDelete();
+        Thread.sleep(500);
+        assertEquals("[Deleted]", accountsCommentsPage.getCommentStatus());
     }
 }
