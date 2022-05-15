@@ -138,4 +138,12 @@ public abstract class AbstractTest {
         Thread.sleep(4000);
         assertEquals(initialAmount + 1, pollsPage.getVotesAmount());
     }
+
+    @Test
+    public void mуVotesFilter() throws InterruptedException {
+        driver.get(getProperty("mainPage"));
+        mainPage.setMyVotesFilter();
+        Thread.sleep(1000);
+        assertTrue(mainPage.isAllNewsHasBeenVotedByMe());
+    }
 }
