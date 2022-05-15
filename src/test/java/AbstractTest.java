@@ -156,7 +156,7 @@ public abstract class AbstractTest {
     }
 
     @Test
-    public void mуVotesFilter() throws InterruptedException {
+    public void myVotesFilter() throws InterruptedException {
         driver.get(getProperty("mainPage"));
         mainPage.setMyVotesFilter();
         Thread.sleep(1000);
